@@ -33,14 +33,23 @@ const Task* TaskManager::findTask(int id) const
 
 Task* TaskManager::findTask(int id)
 {
-	for (size_t i = 0; i < saveTasks.size(); i++)
-	{
-		if (saveTasks[i].getId() == id)
+	auto it = std::find_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[id] (const Task& task)
 		{
-			return &saveTasks[i];
+			return (task.getId() == id);
 		}
+	);
+
+	if (it != saveTasks.end())
+	{
+		return &(*it);
 	}
-	return nullptr;
+	else
+	{
+		return nullptr;
+	}
 }
 
 void TaskManager::showTasks() const
@@ -65,4 +74,36 @@ Task* TaskManager::createTask(std::string name, std::string description, bool st
 
 	// последний индекс = saveTasks.size() - 1;
 	return &saveTasks[saveTasks.size() - 1];
+}
+
+std::vector<Task> TaskManager::findTasksByStatus(bool status) const
+{
+	std::vector<Task> result;
+
+	auto it = std::find_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[status](const Task& task)
+		{
+			return (task.getStatus() == status);
+		}
+	);
+
+	while (it != saveTasks.end())
+	{
+		result.push_back(*it);
+
+		auto nextIt = std::find_if(
+			std::next(it),
+			saveTasks.end(),
+			[status](const Task& task)
+			{
+				return (task.getStatus() == status);
+			}
+		);
+
+		it = nextIt;
+	}
+
+	return result;
 }

@@ -20,4 +20,6 @@ public:
 	void showTasks() const;
 
 	Task* createTask(std::string name, std::string description, bool status, int priority);
+
+	std::vector<Task> findTasksByStatus(bool status) const;
 };

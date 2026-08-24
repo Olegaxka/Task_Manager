@@ -27,6 +27,14 @@ int main()
 		true,
 		3
 	);
+
+	Task* task4 = manager.createTask(
+		"Final cute",
+		"I end it",
+		false,
+		1
+	);
+
 	manager.showTasks();
 
 	manager.removeTask(2);
@@ -47,4 +55,30 @@ int main()
 
 
 	manager.showTasks();
+
+	std::vector<Task> status;
+
+	status = manager.findTasksByStatus(true);
+
+	for (size_t i = 0; i < status.size(); i++)
+	{
+		std::cout << status[i].getId() << " " ;
+	}
+
+	std::cout << '\n';
+
+	for (const auto& task : status)
+	{
+		std::cout << task.getId() << " ";
+	}
+
+	std::cout << '\n';
+
+	status = manager.findTasksByStatus(false);
+
+	for (size_t i = 0; i < status.size(); i++)
+	{
+		std::cout << status[i].getId() << " ";
+	}
+	
 }
