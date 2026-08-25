@@ -83,9 +83,9 @@ int main()
 
 	std::cout << "False: ";
 
-	for (size_t i = 0; i < status.size(); i++)
+	for (const auto& task : status)
 	{
-		std::cout << status[i].getId() << " ";
+		std::cout << task.getId() << " ";
 	}
 	
 	std::cout << '\n';

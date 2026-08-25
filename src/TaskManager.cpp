@@ -23,13 +23,16 @@ void TaskManager::addTask(const Task& task)
 
 void TaskManager::removeTask(int id)
 {
-	for (size_t i = 0; i < saveTasks.size(); i++)
-	{
-		if (saveTasks[i].getId() == id)
+	auto it = std::remove_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[id](const Task& task)
 		{
-			saveTasks.erase(saveTasks.begin() + i);
+			return task.getId() == id;
 		}
-	}
+	);
+
+	saveTasks.erase(it, saveTasks.end());
 }
 
 Task* TaskManager::createTask(std::string name, std::string description, bool status, int priority)
