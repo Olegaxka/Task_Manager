@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 #include "Task.h"
 #include "TaskManager.h"
@@ -35,6 +36,13 @@ int main()
 		1
 	);
 
+	Task* task5 = manager.createTask(
+		"test",
+		"Test",
+		false,
+		3
+	);
+
 	manager.showTasks();
 
 	manager.removeTask(2);
@@ -46,13 +54,14 @@ int main()
 		std::cout << "Task was deleted" << '\n';
 	}
 
-	Task* task5 = manager.findTask(999);
+	Task* taskNullptr = manager.findTask(999);
 
-	if (task5 == nullptr)
+	if (taskNullptr == nullptr)
 	{
 		std::cout << "Task not found\n";
 	}
 
+	std::cout << '\n';
 
 	manager.showTasks();
 
@@ -60,12 +69,8 @@ int main()
 
 	status = manager.findTasksByStatus(true);
 
-	for (size_t i = 0; i < status.size(); i++)
-	{
-		std::cout << status[i].getId() << " " ;
-	}
-
 	std::cout << '\n';
+	std::cout << "True: ";
 
 	for (const auto& task : status)
 	{
@@ -76,9 +81,24 @@ int main()
 
 	status = manager.findTasksByStatus(false);
 
+	std::cout << "False: ";
+
 	for (size_t i = 0; i < status.size(); i++)
 	{
 		std::cout << status[i].getId() << " ";
 	}
 	
+	std::cout << '\n';
+
+	manager.sortTasksByPriority();
+
+	std::cout << "\nAfter sorting priority:\n";
+
+	manager.showTasks();
+
+	manager.sortTasksByPriorityStable();
+
+	std::cout << "\nAfter sorting ByPriorityStable:\n";
+
+	manager.showTasks();
 }

@@ -1,7 +1,20 @@
 #include <iostream>
+#include <algorithm>
 
 #include "TaskManager.h"
 #include "Task.h"
+
+void TaskManager::showTasks() const
+{
+	for (size_t i = 0; i < saveTasks.size(); i++)
+	{
+		std::cout << "ID: " << saveTasks[i].getId() << '\n'
+			<< "name: " << saveTasks[i].getName() << '\n'
+			<< "Description: " << saveTasks[i].getDescription() << '\n'
+			<< "Status: " << saveTasks[i].getStatus() << '\n'
+			<< "Priority: " << saveTasks[i].getPriority() << '\n' << '\n';
+	}
+}
 
 void TaskManager::addTask(const Task& task)
 {
@@ -17,6 +30,18 @@ void TaskManager::removeTask(int id)
 			saveTasks.erase(saveTasks.begin() + i);
 		}
 	}
+}
+
+Task* TaskManager::createTask(std::string name, std::string description, bool status, int priority)
+{
+	Task myTask = { nextId, name, description, status, priority };
+
+	saveTasks.push_back(myTask);
+
+	nextId++;
+
+	// последний индекс = saveTasks.size() - 1;
+	return &saveTasks[saveTasks.size() - 1];
 }
 
 const Task* TaskManager::findTask(int id) const
@@ -52,30 +77,6 @@ Task* TaskManager::findTask(int id)
 	}
 }
 
-void TaskManager::showTasks() const
-{
-	for (size_t i = 0; i < saveTasks.size(); i++)
-	{
-		std::cout << "ID: " << saveTasks[i].getId() << '\n'
-			<< "name: " << saveTasks[i].getName() << '\n'
-			<< "Description: " << saveTasks[i].getDescription() << '\n'
-			<< "Status: " << saveTasks[i].getStatus() << '\n'
-			<< "Priority: " << saveTasks[i].getPriority() << '\n' << '\n';
-	}
-}
-
-Task* TaskManager::createTask(std::string name, std::string description, bool status, int priority)
-{
-	Task myTask = { nextId, name, description, status, priority };
-
-	saveTasks.push_back(myTask);
-	
-	nextId++;
-
-	// последний индекс = saveTasks.size() - 1;
-	return &saveTasks[saveTasks.size() - 1];
-}
-
 std::vector<Task> TaskManager::findTasksByStatus(bool status) const
 {
 	std::vector<Task> result;
@@ -106,4 +107,59 @@ std::vector<Task> TaskManager::findTasksByStatus(bool status) const
 	}
 
 	return result;
+}
+
+void TaskManager::sortTasksByPriority()
+{
+	sort(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			return a.getPriority() < b.getPriority();
+		}
+	);
+}
+
+void TaskManager::sortTasksByPriorityDescending()
+{
+	sort(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			return a.getPriority() > b.getPriority();
+		}
+	);
+}
+
+void TaskManager::sortTasksByPriorityAndId()
+{
+	sort(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			if (a.getPriority() != b.getPriority())
+			{
+				return a.getPriority() < b.getPriority();
+			}
+			else 
+			{
+				return a.getId() < b.getId();
+			}
+		}
+	);
+}
+
+void TaskManager::sortTasksByPriorityStable()
+{
+	std::stable_sort(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			return a.getPriority() < b.getPriority();
+		}
+	);
 }

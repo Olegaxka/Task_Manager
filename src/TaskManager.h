@@ -11,15 +11,18 @@ private:
 	int nextId = 1;
 
 public:
+	void showTasks() const;
+
 	void addTask(const Task& task);
 	void removeTask(int id);
+	Task* createTask(std::string name, std::string description, bool status, int priority);
 
 	const Task* findTask(int id) const;
 	Task* findTask(int id);
-
-	void showTasks() const;
-
-	Task* createTask(std::string name, std::string description, bool status, int priority);
-
 	std::vector<Task> findTasksByStatus(bool status) const;
+
+	void sortTasksByPriority();
+	void sortTasksByPriorityDescending();
+	void sortTasksByPriorityAndId();
+	void sortTasksByPriorityStable();
 };
