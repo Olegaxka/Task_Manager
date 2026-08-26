@@ -25,4 +25,6 @@ public:
 	void sortTasksByPriorityDescending();
 	void sortTasksByPriorityAndId();
 	void sortTasksByPriorityStable();
+
+	size_t countTasksByStatus(bool status) const;
 };

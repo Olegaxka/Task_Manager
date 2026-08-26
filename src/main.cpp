@@ -71,6 +71,7 @@ int main()
 
 	std::cout << '\n';
 	std::cout << "True: ";
+	std::cout << '\n';
 
 	for (const auto& task : status)
 	{
@@ -78,6 +79,8 @@ int main()
 	}
 
 	std::cout << '\n';
+
+	std::cout << "Count Status: " << manager.countTasksByStatus(true) << '\n';
 
 	status = manager.findTasksByStatus(false);
 
@@ -90,6 +93,8 @@ int main()
 	
 	std::cout << '\n';
 
+	std::cout << "Count Status: " << manager.countTasksByStatus(false) << '\n';
+
 	manager.sortTasksByPriority();
 
 	std::cout << "\nAfter sorting priority:\n";
@@ -101,4 +106,5 @@ int main()
 	std::cout << "\nAfter sorting ByPriorityStable:\n";
 
 	manager.showTasks();
+	
 }

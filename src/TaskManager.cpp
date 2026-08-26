@@ -9,7 +9,7 @@ void TaskManager::showTasks() const
 	for (size_t i = 0; i < saveTasks.size(); i++)
 	{
 		std::cout << "ID: " << saveTasks[i].getId() << '\n'
-			<< "name: " << saveTasks[i].getName() << '\n'
+			<< "Name: " << saveTasks[i].getName() << '\n'
 			<< "Description: " << saveTasks[i].getDescription() << '\n'
 			<< "Status: " << saveTasks[i].getStatus() << '\n'
 			<< "Priority: " << saveTasks[i].getPriority() << '\n' << '\n';
@@ -165,4 +165,17 @@ void TaskManager::sortTasksByPriorityStable()
 			return a.getPriority() < b.getPriority();
 		}
 	);
+}
+
+size_t TaskManager::countTasksByStatus(bool status) const
+{
+	auto count = std::count_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[status](const Task& a)
+		{
+			return a.getStatus() == status;
+		}
+	);
+	return count;
 }
