@@ -27,4 +27,9 @@ public:
 	void sortTasksByPriorityStable();
 
 	size_t countTasksByStatus(bool status) const;
+	size_t countTasksByPriority(int priority) const;
+
+	bool allTasksByStatus(bool status) const;
+	bool anyTasksByStatus(bool status) const;
+	bool noneTasksByStatus(bool status) const;
 };

@@ -179,3 +179,55 @@ size_t TaskManager::countTasksByStatus(bool status) const
 	);
 	return count;
 }
+
+size_t TaskManager::countTasksByPriority(int priority) const
+{
+	auto count = std::count_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[priority](const Task& a)
+		{
+			return a.getPriority() == priority;
+		}
+	);
+	return count;
+}
+
+bool TaskManager::allTasksByStatus(bool status) const
+{
+	auto all_of = std::all_of(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[status](const Task& a)
+		{
+			return a.getStatus() == status;
+		}
+	);
+	return all_of;
+}
+
+bool TaskManager::anyTasksByStatus(bool status) const
+{
+	auto any_of = std::any_of(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[status](const Task& a)
+		{
+			return a.getStatus() == status;
+		}
+	);
+	return any_of;
+}
+
+bool TaskManager::noneTasksByStatus(bool status) const
+{
+	auto none_of = std::none_of(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[status](const Task& a)
+		{
+			return a.getStatus() == status;
+		}
+	);
+	return none_of;
+}
