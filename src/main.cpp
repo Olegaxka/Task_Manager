@@ -109,7 +109,15 @@ int main()
 
 	std::cout << "Count by 1 priority :" << manager.countTasksByPriority(1) << '\n' << '\n';
 	
-	std::cout << "All true status: " << manager.allTasksByStatus(true) << '\n';
-	std::cout << "Any true status: " << manager.anyTasksByStatus(true) << '\n';
-	std::cout << "None true status: " << manager.noneTasksByStatus(true) << '\n';
+	std::cout << "All true status: " << manager.allOfTasksByStatus(true) << '\n';
+	std::cout << "Any true status: " << manager.anyOfTasksByStatus(true) << '\n';
+	std::cout << "None true status: " << manager.noneOfTasksByStatus(true) << '\n';
+
+	std::cout << '\n';
+
+	manager.forEachTasksSetPriority(3);
+	manager.forEachFalsTasksSetPriority();
+	std::cout << '\n';
+
+	manager.showTasks();
 }

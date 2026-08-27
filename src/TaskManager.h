@@ -29,7 +29,12 @@ public:
 	size_t countTasksByStatus(bool status) const;
 	size_t countTasksByPriority(int priority) const;
 
-	bool allTasksByStatus(bool status) const;
-	bool anyTasksByStatus(bool status) const;
-	bool noneTasksByStatus(bool status) const;
+	bool allOfTasksByStatus(bool status) const;
+	bool anyOfTasksByStatus(bool status) const;
+	bool noneOfTasksByStatus(bool status) const;
+
+	void forEachTasksByID() const;
+	void forEachTasksSetPriority(int id);
+	void forEachAllTasksSetPriority();
+	void forEachFalsTasksSetPriority();
 };

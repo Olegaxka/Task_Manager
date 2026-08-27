@@ -193,7 +193,7 @@ size_t TaskManager::countTasksByPriority(int priority) const
 	return count;
 }
 
-bool TaskManager::allTasksByStatus(bool status) const
+bool TaskManager::allOfTasksByStatus(bool status) const
 {
 	auto all_of = std::all_of(
 		saveTasks.begin(),
@@ -206,7 +206,7 @@ bool TaskManager::allTasksByStatus(bool status) const
 	return all_of;
 }
 
-bool TaskManager::anyTasksByStatus(bool status) const
+bool TaskManager::anyOfTasksByStatus(bool status) const
 {
 	auto any_of = std::any_of(
 		saveTasks.begin(),
@@ -219,7 +219,7 @@ bool TaskManager::anyTasksByStatus(bool status) const
 	return any_of;
 }
 
-bool TaskManager::noneTasksByStatus(bool status) const
+bool TaskManager::noneOfTasksByStatus(bool status) const
 {
 	auto none_of = std::none_of(
 		saveTasks.begin(),
@@ -230,4 +230,62 @@ bool TaskManager::noneTasksByStatus(bool status) const
 		}
 	);
 	return none_of;
+}
+
+void TaskManager::forEachTasksByID() const
+{
+	std::for_each(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a)
+		{
+			std::cout << a.getId() << " ";
+		}
+	);
+}
+
+void TaskManager::forEachTasksSetPriority(int id)
+{
+	std::for_each(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[id](Task& a)
+		{
+			if (id == a.getId()) {
+				int newPriority = a.getPriority() + 1;
+				a.setPriority(newPriority);
+			}
+		}
+	);
+}
+
+void TaskManager::forEachAllTasksSetPriority()
+{
+	std::for_each(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](Task& a)
+		{
+			if (a.getStatus() == true)
+			{
+				int newPriority = a.getPriority() + 1;
+				a.setPriority(newPriority);
+			}
+		}
+	);
+}
+
+void TaskManager::forEachFalsTasksSetPriority()
+{
+	std::for_each(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](Task& a)
+		{
+			if (a.getStatus() == false)
+			{
+				a.setPriority(1);
+			}
+		}
+	);
 }
