@@ -275,7 +275,7 @@ void TaskManager::forEachAllTasksSetPriority()
 	);
 }
 
-void TaskManager::forEachFalsTasksSetPriority()
+void TaskManager::forEachFalseTasksSetPriority()
 {
 	std::for_each(
 		saveTasks.begin(),
@@ -288,4 +288,72 @@ void TaskManager::forEachFalsTasksSetPriority()
 			}
 		}
 	);
+}
+
+std::vector<int> TaskManager::transformTasksByID()
+{
+	std::vector<int> id(saveTasks.size());
+
+	std::transform(
+		saveTasks.begin(),
+		saveTasks.end(),
+		id.begin(),
+		[](Task& a)
+		{
+			return a.getId();
+		}
+	);
+
+	return id;
+}
+
+std::vector<int> TaskManager::transformTasksByPriority()
+{
+	std::vector<int> priority(saveTasks.size());
+
+	std::transform(
+		saveTasks.begin(),
+		saveTasks.end(),
+		priority.begin(),
+		[](const Task& a)
+		{
+			return a.getPriority();
+		}
+	);
+
+	return priority;
+}
+
+std::vector<std::string> TaskManager::transformTasksToDescriptions()
+{
+	std::vector<std::string> descriptions(saveTasks.size());
+
+	std::transform(
+		saveTasks.begin(),
+		saveTasks.end(),
+		descriptions.begin(),
+		[](const Task& a)
+		{
+			return a.getDescription();
+		}
+	);
+
+	return descriptions;
+}
+
+std::vector<std::string> TaskManager::transformTasksToNames()
+{
+	std::vector<std::string> names(saveTasks.size());
+
+	std::transform(
+		saveTasks.begin(),
+		saveTasks.end(),
+		names.begin(),
+		[](const Task& a)
+		{
+			return a.getName();
+		}
+	);
+
+	return names;
 }

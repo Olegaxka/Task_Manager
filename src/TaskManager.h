@@ -36,5 +36,10 @@ public:
 	void forEachTasksByID() const;
 	void forEachTasksSetPriority(int id);
 	void forEachAllTasksSetPriority();
-	void forEachFalsTasksSetPriority();
+	void forEachFalseTasksSetPriority();
+
+	std::vector<int> transformTasksByID();
+	std::vector<int> transformTasksByPriority();
+	std::vector<std::string> transformTasksToDescriptions();
+	std::vector<std::string> transformTasksToNames();
 };

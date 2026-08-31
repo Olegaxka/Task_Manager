@@ -116,8 +116,49 @@ int main()
 	std::cout << '\n';
 
 	manager.forEachTasksSetPriority(3);
-	manager.forEachFalsTasksSetPriority();
+	manager.forEachFalseTasksSetPriority();
+
 	std::cout << '\n';
 
 	manager.showTasks();
+	
+	auto ids = manager.transformTasksByID();
+
+	std::cout << "transformTasksByID: ";
+	for (const auto& task : ids)
+	{
+		std::cout << task << " ";
+	}
+
+	std::cout << '\n';
+
+	auto pri = manager.transformTasksByPriority();
+
+	std::cout << "transformTasksByPriority: ";
+	for (const auto& task : pri)
+	{
+		std::cout << task << " ";
+	}
+
+	std::cout << '\n' << '\n';
+
+	auto des = manager.transformTasksToDescriptions();
+
+	std::cout << "transformTasksToDescriptions: ";
+	for (const auto& task : des)
+	{
+		std::cout << '\n' << task << " ";
+	}
+
+	std::cout << '\n' << '\n';
+
+	auto nam = manager.transformTasksToNames();
+
+	std::cout << "transformTasksToNames: ";
+	for (const auto& task : nam)
+	{
+		std::cout << '\n' << task << " ";
+	}
+
+	std::cout << '\n' << '\n';
 }
