@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <numeric>
 
 #include "Task.h"
 #include "TaskManager.h"
@@ -161,4 +162,34 @@ int main()
 	}
 
 	std::cout << '\n' << '\n';
+
+	std::cout << "countCompletedPriority: " << manager.countCompletedPriority() << '\n';
+
+	std::cout << '\n';
+
+	auto findTasks = manager.findTasksByPriority(1);
+
+	std::cout << "findTasksByPriority: ";
+	for (const auto& task : findTasks)
+	{
+		std::cout  << task.getId() << " ";
+	}
+
+	std::cout << '\n' << '\n';
+
+	Task* minTask = manager.getMinPriorityTask();
+	Task* maxTask = manager.getMaxPriorityTask();
+
+	std::cout << "minTask: " << minTask->getId() << '\n';
+	std::cout << "maxTask: " << maxTask->getId() << '\n';
+
+	std::vector<int> numbers = { 2, 4, 4, 5, 10, 15, 20 };
+
+	auto lower = std::lower_bound(
+		numbers.begin(),
+		numbers.end(),
+		5
+	);
+
+	std::cout << *lower;
 }

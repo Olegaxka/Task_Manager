@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <numeric>
 
 #include "TaskManager.h"
 #include "Task.h"
@@ -307,7 +308,7 @@ std::vector<int> TaskManager::transformTasksByID()
 	return id;
 }
 
-std::vector<int> TaskManager::transformTasksByPriority()
+std::vector<int> TaskManager::transformTasksByPriority() const
 {
 	std::vector<int> priority(saveTasks.size());
 
@@ -356,4 +357,125 @@ std::vector<std::string> TaskManager::transformTasksToNames()
 	);
 
 	return names;
+}
+
+int TaskManager::countTotalPriority()
+{
+	auto priority = std::accumulate(
+		saveTasks.begin(),
+		saveTasks.end(),
+		0,
+		[](int priority, const Task& a)
+		{
+			return priority + a.getPriority();
+		}
+	);
+	return priority;
+}
+
+int TaskManager::countCompletedPriority()
+{
+	
+	auto priority = std::accumulate(
+		saveTasks.begin(),
+		saveTasks.end(),
+		0,
+		[](int priority, const Task& a)
+		{
+			if (a.getStatus() == true) {
+				return priority + a.getPriority();
+			}
+			else
+			{
+				return priority + 0;
+			}
+		}
+	);
+	return priority;
+}
+
+std::vector <Task> TaskManager::findTasksByPriority(int priority) const
+{
+	std::vector <Task> copy;
+
+	std::copy_if(
+		saveTasks.begin(),
+		saveTasks.end(),
+		std::back_inserter(copy),
+		[priority](const Task& a)
+		{
+			return a.getPriority() == priority;
+		}
+	);
+	return copy;
+}
+
+Task* TaskManager::getMinPriorityTask()
+{
+	auto minElement = std::min_element(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			return a.getPriority() < b.getPriority();
+		}
+	);
+	if (minElement == saveTasks.end())
+	{
+		return nullptr;
+	}
+	return &(*minElement);
+}
+
+Task* TaskManager::getMaxPriorityTask()
+{
+	auto maxElement = std::max_element(
+		saveTasks.begin(),
+		saveTasks.end(),
+		[](const Task& a, const Task& b)
+		{
+			return a.getPriority() < b.getPriority();
+		}
+	);
+	if (maxElement == saveTasks.end())
+	{
+		return nullptr;
+	}
+	return &(*maxElement);
+}
+
+bool TaskManager::containsTaskWithPriority(int priority) const
+{
+	std::vector<int> priorities = transformTasksByPriority();
+
+	std::sort(
+		priorities.begin(),
+		priorities.end()
+	);
+
+	return std::binary_search(
+		priorities.begin(),
+		priorities.end(),
+		priority
+	);
+}
+
+Task* TaskManager::findFirstTaskWithPriority(int priority)
+{
+	auto it = std::lower_bound(
+		saveTasks.begin(),
+		saveTasks.end(),
+		priority,
+		[](const Task& task, int priority)
+		{
+			return task.getPriority() < priority;
+		}
+	);
+
+	if (it != saveTasks.end())
+	{
+		return &(*it);
+	}
+
+	return nullptr;
 }

@@ -39,7 +39,18 @@ public:
 	void forEachFalseTasksSetPriority();
 
 	std::vector<int> transformTasksByID();
-	std::vector<int> transformTasksByPriority();
+	std::vector<int> transformTasksByPriority() const;
 	std::vector<std::string> transformTasksToDescriptions();
 	std::vector<std::string> transformTasksToNames();
+
+	int countTotalPriority();
+	int countCompletedPriority();
+
+	std::vector <Task> findTasksByPriority(int priority) const;
+
+	Task* getMinPriorityTask();
+	Task* getMaxPriorityTask();
+
+	bool containsTaskWithPriority(int priority) const;
+	Task* findFirstTaskWithPriority(int priority);
 };
