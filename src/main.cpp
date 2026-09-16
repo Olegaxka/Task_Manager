@@ -44,7 +44,7 @@ int main()
 		3
 	);
 
-	manager.showTasks();
+	manager.showTasksConst();
 
 	manager.removeTask(2);
 
@@ -183,13 +183,15 @@ int main()
 	std::cout << "minTask: " << minTask->getId() << '\n';
 	std::cout << "maxTask: " << maxTask->getId() << '\n';
 
-	std::vector<int> numbers = { 2, 4, 4, 5, 10, 15, 20 };
+	std::cout << '\n' << '\n';
 
-	auto lower = std::lower_bound(
-		numbers.begin(),
-		numbers.end(),
-		5
-	);
+	manager.showTasksReverse();
 
-	std::cout << *lower;
+	std::vector<int> numbers = { 10, 20, 30, 40, 50 };
+	
+	auto firstIt = numbers.begin() + 1;
+	auto secondIt = numbers.begin() + 3;
+
+	numbers.erase(numbers.begin() + 2);
+
 }

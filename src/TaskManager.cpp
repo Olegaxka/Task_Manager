@@ -7,13 +7,37 @@
 
 void TaskManager::showTasks() const
 {
-	for (size_t i = 0; i < saveTasks.size(); i++)
+	for (auto it = saveTasks.cbegin(); it != saveTasks.cend(); ++it)
 	{
-		std::cout << "ID: " << saveTasks[i].getId() << '\n'
-			<< "Name: " << saveTasks[i].getName() << '\n'
-			<< "Description: " << saveTasks[i].getDescription() << '\n'
-			<< "Status: " << saveTasks[i].getStatus() << '\n'
-			<< "Priority: " << saveTasks[i].getPriority() << '\n' << '\n';
+		std::cout << "ID: " << it->getId() << '\n'
+			<< "Name: " << it->getName() << '\n'
+			<< "Description: " << it->getDescription() << '\n'
+			<< "Status: " << it->getStatus() << '\n'
+			<< "Priority: " << it->getPriority() << '\n' << '\n';
+	}
+}
+
+void TaskManager::showTasksConst() const
+{
+	for (auto it = saveTasks.cbegin(); it != saveTasks.cend(); ++it)
+	{
+		std::cout << "ID: " << (*it).getId() << '\n'
+			<< "Name: " << (*it).getName() << '\n'
+			<< "Description: " << (*it).getDescription() << '\n'
+			<< "Status: " << (*it).getStatus() << '\n'
+			<< "Priority: " << (*it).getPriority() << '\n' << '\n';
+	}
+}
+
+void TaskManager::showTasksReverse() const
+{
+	for (auto it = saveTasks.crbegin(); it != saveTasks.crend(); ++it)
+	{
+		std::cout << "ID: " << (*it).getId() << '\n'
+			<< "Name: " << (*it).getName() << '\n'
+			<< "Description: " << (*it).getDescription() << '\n'
+			<< "Status: " << (*it).getStatus() << '\n'
+			<< "Priority: " << (*it).getPriority() << '\n' << '\n';
 	}
 }
 
@@ -34,6 +58,37 @@ void TaskManager::removeTask(int id)
 	);
 
 	saveTasks.erase(it, saveTasks.end());
+}
+
+void TaskManager::removeTasksByPriority(int priority)
+{
+	for (auto it = saveTasks.begin(); it != saveTasks.end();)
+	{
+		if (it->getPriority() == priority)
+		{
+			it = saveTasks.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void TaskManager::removeTaskById(int id)
+{
+	for (auto it = saveTasks.begin(); it != saveTasks.end();)
+	{
+		if (id == it->getId())
+		{
+			saveTasks.erase(it);
+			break;
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
 Task* TaskManager::createTask(std::string name, std::string description, bool status, int priority)
@@ -478,4 +533,28 @@ Task* TaskManager::findFirstTaskWithPriority(int priority)
 	}
 
 	return nullptr;
+}
+
+void TaskManager::setAllTasksPriority(int priority)
+{
+	for (auto it = saveTasks.begin(); it != saveTasks.end(); ++it)
+	{
+		it->setPriority(priority);
+	}
+}
+
+void TaskManager::setTaskPriorityById(int id, int priority)
+{
+	for (auto it = saveTasks.begin(); it != saveTasks.end();)
+	{
+		if (id == it->getId())
+		{
+			it->setPriority(priority);
+			break;
+		}
+		else
+		{
+			++it;
+		}
+	}
 }

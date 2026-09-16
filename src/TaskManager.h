@@ -12,9 +12,15 @@ private:
 
 public:
 	void showTasks() const;
+	void showTasksConst() const;
+	void showTasksReverse() const;
 
 	void addTask(const Task& task);
+
 	void removeTask(int id);
+	void removeTasksByPriority(int priority);
+	void removeTaskById(int id);
+
 	Task* createTask(std::string name, std::string description, bool status, int priority);
 
 	const Task* findTask(int id) const;
@@ -53,4 +59,7 @@ public:
 
 	bool containsTaskWithPriority(int priority) const;
 	Task* findFirstTaskWithPriority(int priority);
+
+	void setAllTasksPriority(int priority);
+	void setTaskPriorityById(int id, int priority);
 };
