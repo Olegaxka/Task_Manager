@@ -14,6 +14,8 @@ public:
 	void showTasks() const;
 	void showTasksConst() const;
 	void showTasksReverse() const;
+	void showTaskNames() const;
+	void showTasksByPriorityReverse(int priority) const;
 
 	void addTask(const Task& task);
 

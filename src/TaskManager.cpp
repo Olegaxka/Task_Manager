@@ -41,6 +41,26 @@ void TaskManager::showTasksReverse() const
 	}
 }
 
+void TaskManager::showTaskNames() const
+{
+	for (auto it = saveTasks.cbegin(); it != saveTasks.cend(); ++it)
+	{
+		std::cout << "Name: " << it->getName() << '\n';
+	}
+}
+
+void TaskManager::showTasksByPriorityReverse(int priority) const
+{
+	for (auto it = saveTasks.crbegin(); it != saveTasks.crend(); ++it)
+	{
+		if (it->getPriority() == priority) {
+			std::cout << "ID: " << it->getId() << '\n'
+				<< "Name: " << it->getName() << '\n'
+				<< "Priority: " << it->getPriority() << '\n' << '\n';
+		}
+	}
+}
+
 void TaskManager::addTask(const Task& task)
 {
 	saveTasks.push_back(task);

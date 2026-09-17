@@ -1,197 +1,236 @@
 #include <iostream>
-#include <algorithm>
-#include <numeric>
+#include <limits>
 
 #include "Task.h"
 #include "TaskManager.h"
 
 int main()
 {
-	TaskManager manager;
+    TaskManager manager;
+    int choice = 1;
 
-	Task* task1 = manager.createTask(
-		"Learn C++",
-		"i job for my C++ skills",
-		true,
-		1
-	);
+    while (choice != 0)
+    {
+        std::cout << "\n========== TASK MANAGER ==========\n\n"
+            << "1. Show all tasks\n"
+            << "2. Add task\n"
+            << "3. Find task\n"
+            << "4. Change task status\n"
+            << "5. Change task priority\n"
+            << "6. Delete task\n"
+            << "7. Sort tasks\n"
+            << "8. Statistics\n"
+            << "0. Exit\n\n"
+            << "Select option: ";
 
-	Task* task2 = manager.createTask(
-		"Study STL",
-		"i wery good learn STL",
-		false,
-		2
-	);
+        std::cin >> choice;
 
-	Task* task3 = manager.createTask(
-		"Build Task Manager",
-		"I start build my new project",
-		true,
-		3
-	);
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	Task* task4 = manager.createTask(
-		"Final cute",
-		"I end it",
-		false,
-		1
-	);
+            std::cout << "\nInvalid input. Please enter a number.\n";
+            continue;
+        }
 
-	Task* task5 = manager.createTask(
-		"test",
-		"Test",
-		false,
-		3
-	);
+        switch (choice)
+        {
+        case 0:
+            std::cout << "\nGoodbye!\n";
+            break;
 
-	manager.showTasksConst();
+        case 1:
+        {
+            std::cout << "\n========== ALL TASKS ==========\n\n";
+            manager.showTasks();
+            break;
+        }
 
-	manager.removeTask(2);
+        case 2:
+        {
+            std::string name;
+            std::string description;
+            bool status;
+            int priority;
 
-	Task* task = manager.findTask(2);
+            std::cout << "Enter task name:\n";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::getline(std::cin, name);
 
-	if (task == nullptr)
-	{
-		std::cout << "Task was deleted" << '\n';
-	}
+            std::cout << "Description:\n";
+            std::getline(std::cin, description);
 
-	Task* taskNullptr = manager.findTask(999);
+            std::cout << "Status (1 - completed, 0 - not completed):\n";
+            std::cin >> status;
 
-	if (taskNullptr == nullptr)
-	{
-		std::cout << "Task not found\n";
-	}
+            std::cout << "Priority:\n";
+            std::cin >> priority;
 
-	std::cout << '\n';
+            manager.createTask(name, description, status, priority);
 
-	manager.showTasks();
+            std::cout << "\nTask added successfully.\n";
+            break;
+        }
 
-	std::vector<Task> status;
+        case 3:
+        {
+            int id;
 
-	status = manager.findTasksByStatus(true);
+            std::cout << "Enter task ID: ";
+            std::cin >> id;
 
-	std::cout << '\n';
-	std::cout << "True: ";
-	std::cout << '\n';
+            Task* task = manager.findTask(id);
 
-	for (const auto& task : status)
-	{
-		std::cout << task.getId() << " ";
-	}
+            if (task == nullptr)
+            {
+                std::cout << "\nTask not found.\n";
+            }
+            else
+            {
+                std::cout << "\n========== TASK ==========\n"
+                    << "ID: " << task->getId() << '\n'
+                    << "Name: " << task->getName() << '\n'
+                    << "Description: " << task->getDescription() << '\n'
+                    << "Status: " << (task->getStatus() ? "Completed" : "Not completed") << '\n'
+                    << "Priority: " << task->getPriority() << '\n';
+            }
 
-	std::cout << '\n';
+            break;
+        }
 
-	std::cout << "Count Status: " << manager.countTasksByStatus(true) << '\n';
+        case 4:
+        {
+            int id;
+            bool status;
 
-	status = manager.findTasksByStatus(false);
+            std::cout << "Enter task ID: ";
+            std::cin >> id;
 
-	std::cout << "False: ";
+            Task* task = manager.findTask(id);
 
-	for (const auto& task : status)
-	{
-		std::cout << task.getId() << " ";
-	}
-	
-	std::cout << '\n';
+            if (task == nullptr)
+            {
+                std::cout << "\nTask not found.\n";
+            }
+            else
+            {
+                std::cout << "Enter new status (1 - completed, 0 - not completed): ";
+                std::cin >> status;
 
-	std::cout << "Count Status: " << manager.countTasksByStatus(false) << '\n';
+                task->setStatus(status);
 
-	manager.sortTasksByPriority();
+                std::cout << "\nTask status changed successfully.\n";
+            }
 
-	std::cout << "\nAfter sorting priority:\n";
+            break;
+        }
 
-	manager.showTasks();
+        case 5:
+        {
+            int id;
+            int priority;
 
-	manager.sortTasksByPriorityStable();
+            std::cout << "Enter task ID: ";
+            std::cin >> id;
 
-	std::cout << "\nAfter sorting ByPriorityStable:\n";
+            Task* task = manager.findTask(id);
 
-	manager.showTasks();
+            if (task == nullptr)
+            {
+                std::cout << "\nTask not found.\n";
+            }
+            else
+            {
+                std::cout << "Enter new priority: ";
+                std::cin >> priority;
 
-	std::cout << "Count by 1 priority :" << manager.countTasksByPriority(1) << '\n' << '\n';
-	
-	std::cout << "All true status: " << manager.allOfTasksByStatus(true) << '\n';
-	std::cout << "Any true status: " << manager.anyOfTasksByStatus(true) << '\n';
-	std::cout << "None true status: " << manager.noneOfTasksByStatus(true) << '\n';
+                manager.setTaskPriorityById(id, priority);
 
-	std::cout << '\n';
+                std::cout << "\nTask priority changed successfully.\n";
+            }
 
-	manager.forEachTasksSetPriority(3);
-	manager.forEachFalseTasksSetPriority();
+            break;
+        }
 
-	std::cout << '\n';
+        case 6:
+        {
+            int id;
 
-	manager.showTasks();
-	
-	auto ids = manager.transformTasksByID();
+            std::cout << "Enter task ID: ";
+            std::cin >> id;
 
-	std::cout << "transformTasksByID: ";
-	for (const auto& task : ids)
-	{
-		std::cout << task << " ";
-	}
+            Task* task = manager.findTask(id);
 
-	std::cout << '\n';
+            if (task == nullptr)
+            {
+                std::cout << "\nTask not found.\n";
+            }
+            else
+            {
+                manager.removeTaskById(id);
 
-	auto pri = manager.transformTasksByPriority();
+                std::cout << "\nTask deleted successfully.\n";
+            }
 
-	std::cout << "transformTasksByPriority: ";
-	for (const auto& task : pri)
-	{
-		std::cout << task << " ";
-	}
+            break;
+        }
 
-	std::cout << '\n' << '\n';
+        case 7:
+        {
+            int priorityChoice;
 
-	auto des = manager.transformTasksToDescriptions();
+            std::cout << "\n========== SORT TASKS ==========\n\n"
+                << "1. Priority ascending\n"
+                << "2. Priority descending\n"
+                << "0. Back\n\n"
+                << "Select option: ";
 
-	std::cout << "transformTasksToDescriptions: ";
-	for (const auto& task : des)
-	{
-		std::cout << '\n' << task << " ";
-	}
+            std::cin >> priorityChoice;
 
-	std::cout << '\n' << '\n';
+            switch (priorityChoice)
+            {
+            case 1:
+                manager.sortTasksByPriority();
+                std::cout << "\nTasks sorted by priority ascending.\n";
+                break;
 
-	auto nam = manager.transformTasksToNames();
+            case 2:
+                manager.sortTasksByPriorityDescending();
+                std::cout << "\nTasks sorted by priority descending.\n";
+                break;
 
-	std::cout << "transformTasksToNames: ";
-	for (const auto& task : nam)
-	{
-		std::cout << '\n' << task << " ";
-	}
+            case 0:
+                break;
 
-	std::cout << '\n' << '\n';
+            default:
+                std::cout << "\nInvalid option.\n";
+                break;
+            }
 
-	std::cout << "countCompletedPriority: " << manager.countCompletedPriority() << '\n';
+            break;
+        }
 
-	std::cout << '\n';
+        case 8:
+        {
+            std::cout << "\n========== STATISTICS ==========\n\n"
+                << "Completed tasks: "
+                << manager.countTasksByStatus(true) << '\n'
+                << "Not completed tasks: "
+                << manager.countTasksByStatus(false) << '\n'
+                << "Total priority: "
+                << manager.countTotalPriority() << '\n'
+                << "Completed priority: "
+                << manager.countCompletedPriority() << '\n';
 
-	auto findTasks = manager.findTasksByPriority(1);
+            break;
+        }
 
-	std::cout << "findTasksByPriority: ";
-	for (const auto& task : findTasks)
-	{
-		std::cout  << task.getId() << " ";
-	}
+        default:
+            std::cout << "\nInvalid option. Please select a number from 0 to 8.\n";
+            break;
+        }
+    }
 
-	std::cout << '\n' << '\n';
-
-	Task* minTask = manager.getMinPriorityTask();
-	Task* maxTask = manager.getMaxPriorityTask();
-
-	std::cout << "minTask: " << minTask->getId() << '\n';
-	std::cout << "maxTask: " << maxTask->getId() << '\n';
-
-	std::cout << '\n' << '\n';
-
-	manager.showTasksReverse();
-
-	std::vector<int> numbers = { 10, 20, 30, 40, 50 };
-	
-	auto firstIt = numbers.begin() + 1;
-	auto secondIt = numbers.begin() + 3;
-
-	numbers.erase(numbers.begin() + 2);
-
+    return 0;
 }
